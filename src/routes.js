@@ -1,9 +1,9 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 // Importando cada página
-import Home from './pages/home/home'
-import Categorias from './pages/categorias/categorias'
-import Tarefas from './pages/tarefas/tarefas';
+import Home from './screens/home/home'
+import Categorias from './screens/categorias/categorias'
+import Tarefas from './screens/tarefas/tarefas';
 
 // Importando cada icone da Navigation bar
 import { NavHome, NavHomeActive, NavCategoria, NavCategoriaActive, NavTarefa, NavTarefaActive } from '../assets/icones/navIcons'
