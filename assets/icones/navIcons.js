@@ -23,7 +23,7 @@ const NavHomeActive = () => {
       />
       <Path
         d="M25.875 35.5417H33.125"
-        stroke="#000"
+        stroke="#F6F9FE"
         stroke-width="2"
         stroke-linecap="round"
         stroke-linejoin="round"
