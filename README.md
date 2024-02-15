@@ -1,1 +1,0 @@
-# BitTask-Mobile
