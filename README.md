@@ -1,1 +1,2 @@
-![image](https://github.com/ryanNS3/BitTask-Mobile/assets/131711415/63f8bf38-f8ed-49c2-9548-26616a060336)
+![image](https://github.com/ryanNS3/BitTask-Mobile/assets/131711415/72dbbd6f-ef16-47c1-803c-fd90825609b6)
+
