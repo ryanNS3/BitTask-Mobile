@@ -28,7 +28,7 @@ export default function Routes() {
           backgroundColor: '#D1DFFE',
           borderTopWidth: 0,
           borderRadius: 10,
-          height: 80
+          height: '9%'
         }
       }}
     >
