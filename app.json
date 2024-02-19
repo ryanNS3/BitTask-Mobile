@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "bitTask",
-    "slug": "bitTask",
+    "name": "bitTask-mobile",
+    "slug": "bitTask-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
