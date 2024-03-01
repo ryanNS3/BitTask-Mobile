@@ -1,20 +1,34 @@
 import { StyleSheet } from "react-native"
+import { Roboto_400Regular,Roboto_500Medium,Roboto_700Bold, useFonts  } from "@expo-google-fonts/roboto"
 
+// const [carregarFont,erroFont] = useFonts({
+//     Roboto_400Regular,
+//     Roboto_500Medium,
+//     Roboto_700Bold
+// })
 
-export const Titulos = StyleSheet.create({
+// const [fontSucess, setFontSucess] = React.useState(false)
+
+// if (!carregarFont && !erroFont) {
+//     setFontSucess(true)
+//   }
+
+export const Titulos = 
+    
+    StyleSheet.create({
+
     h1:{
-        fontFamily: "Roboto_700Bold",
+        fontFamily: "Roboto",
         fontSize: 50,
         lineHeight: 60,
-        fontWeight: "bold",
         
     },
 
     h2:{
-        fontFamily: "Roboto_500Medium",
+        fontFamily: "roboto",
         fontSize: 40,
         lineHeight: 48,
-        fontWeight: "500",
+        fontWeight: "700"
     },
     h3:{
         fontFamily: "Roboto_700Bold",
