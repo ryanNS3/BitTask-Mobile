@@ -21,8 +21,6 @@ export const categories = [
     }
 ]
 
-
-
 export const tasks = [
     {
         name: 'Teste1',
@@ -48,5 +46,4 @@ export const tasks = [
         date: '22/03/2022',
         category: 'Outros'
     },
-   
 ]
