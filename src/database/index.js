@@ -23,25 +23,27 @@ export const criarTabela = (db) => {
                   console.log("Tarefa adicionada com sucesso!"); 
                   verTodasTarefas(db)
                 },
-                (error) => {"erro: ", error}
+                (error) => {
+                  console.log(`Erro ao buscar tarefas: ${error}`)
+                }
             );
         }
     )
 };
-
-
-        
+  
 export const criarTarefa = (db, nome, descricao, categoria, prioridade, data_entrega) => {
     db.transaction(
         (tx) => {
           tx.executeSql(
             "INSERT INTO tasks (nome, descricao, categoria, prioridade, data_entrega) VALUES (?, ?, ?, ?, ?)",
-            [nome, descricao, categoria, prioridade, data_entrega ],
+            [nome, descricao, categoria, prioridade, data_entrega],
             () => {
               console.log("Tarefa adicionada com sucesso!"); 
               verTodasTarefas(db)
             },
-            (error) => {"erro: ", error}
+            (error) => {
+              console.log(`Erro ao buscar tarefas: ${error}`)
+            }
           );
         }
     )
@@ -55,11 +57,27 @@ export const verTodasTarefas = (db) => {
           console.log("Todas as tarefas na tabela tasks: ");
           for (let i = 0; i < resultSet.rows.length; i++) {
               const task = resultSet.rows.item(i);
-              console.log(`Tarefa ${i + 1}:`, task);
+              console.log(`Tarefa ${i + 1}: ${task}`);
           }
       },
         (_, error) => {
-          console.log("Erro ao buscar tarefas: ", error);
+          console.log(`Erro ao buscar tarefas: ${error}`);
+        }
+      );
+    }
+  )
+};
+
+export const verUmaTarefa = (db, id) => {
+  db.transaction(
+    (tx) => {
+        tx.executeSql("SELECT * FROM tasks WHERE id = ?", [id], 
+        (_, resultSet) => {
+          const task = resultSet.rows.item(0);
+          console.log(`Tarefa: ${task}`);
+      },
+        (_, error) => {
+          console.log(`Erro ao buscar tarefa: ${error}`);
         }
       );
     }
