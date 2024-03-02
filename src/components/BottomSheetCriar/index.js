@@ -43,7 +43,8 @@ export function BottomSheetCriar() {
     const handleCriarTarefa = () => {
         // Verifique se todos os campos necessários estão preenchidos antes de criar a tarefa
         if (nome && categoria && prioridade && date) {
-            criarTarefa(db, nome, descricao, categoria, prioridade, date);
+            const dataEntrega = date.toISOString().slice(0, 19).replace('T', ' ');
+            criarTarefa(db, nome, descricao, categoria, prioridade, dataEntrega);
             // Limpe os campos após a criação da tarefa
             setNome('');
             setDescricao('');
