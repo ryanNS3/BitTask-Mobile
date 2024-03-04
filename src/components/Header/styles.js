@@ -3,8 +3,7 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
     image: {
         width: '100%', 
-        height: '43%',
-        marginBottom: '-43%'
+        height: 150,
     },
     voltar: {
         display: 'flex',
@@ -24,12 +23,14 @@ export const styles = StyleSheet.create({
     row: {
         top: '10%',
         flexDirection: 'row',
-        justifyContent: 'space-around'
+        alignItems: 'center'
     },
     headerText: {
         fontFamily: "Roboto",
         fontSize: 30,
         lineHeight: 39,
         fontWeight: "bold",
+        marginLeft: 20,
+        marginRight: '30%'
     },
 });

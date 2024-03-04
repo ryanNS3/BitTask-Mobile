@@ -67,7 +67,6 @@ export default function App() {
               tabBarShowLabel: false,
               headerShown: false,
               tabBarStyle:{
-                position: 'absolute',
                 backgroundColor: '#D1DFFE',
                 borderTopWidth: 0,
                 borderRadius: 10,
