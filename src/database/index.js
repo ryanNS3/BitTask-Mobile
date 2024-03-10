@@ -3,12 +3,11 @@ import dayjs from "dayjs";
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 
-dayjs.extend(utc)
-dayjs.extend(timezone)
-
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 export function openDatabase() {
-  const db = SQLite.openDatabase("982eefr5.db");
+  const db = SQLite.openDatabase("BitTask.db");
   return db;
 }
 
@@ -24,13 +23,13 @@ export const criarTabela = (db) => {
                     prioridade INTEGER CHECK(prioridade IN (1, 2, 3)) NOT NULL,
                     status INTEGER CHECK(status IN (0, 1)) DEFAULT 0,
                     data_criacao DATETIME DEFAULT (DATETIME('now', 'localtime')),
-                    data_entrega DATE NOT NULL
+                    data_entrega DATE
                 );`, [],
                 () => {
-                  console.log("Tabela criada!"); 
+                  console.log("Tabela criada ou já existente!");
                 },
                 (error) => {
-                  console.log("Erro ao criar tabela: ", error)
+                  console.error("Erro ao criar tabela: ", error)
                 }
             );
         }
@@ -39,6 +38,7 @@ export const criarTabela = (db) => {
 
 export const criarTarefa = (db, nome, descricao, categoria, prioridade, date) => {
   const data_entrega = dayjs(date).local().format().slice(0, 10);
+
   db.transaction(
     (tx) => {
       tx.executeSql(
@@ -48,7 +48,7 @@ export const criarTarefa = (db, nome, descricao, categoria, prioridade, date) =>
           console.log("Tarefa adicionada com sucesso!"); 
         },
         (error) => {
-          console.log("Erro ao criar tarefa: ", error)
+          console.error("Erro ao criar tarefa: ", error)
         }
       );
     }
@@ -66,7 +66,7 @@ export const verTodasTarefas = (db, callback) => {
               tarefas.push(task);
           }
           callback(tarefas);
-        },
+      },
         (_, error) => {
           console.log("Erro ao buscar tarefas: ", error)
           callback([]);
@@ -76,63 +76,61 @@ export const verTodasTarefas = (db, callback) => {
   )
 };
 
-export const verTarefa = (db, id) => {
+export const verTarefa = (db, id, callback) => {
   db.transaction(
-    (tx) => {
-        tx.executeSql("SELECT * FROM tasks WHERE id = ?", [id], 
-        (_, resultSet) => {
-          const task = resultSet.rows.item(0);
-          console.log(`Tarefa: `, task);
-        },
-        (_, error) => {
-          console.log("Erro ao buscar tarefa: ", error)
-        }
-      );
-    }
-  )
+      (tx) => {
+          tx.executeSql(
+              "SELECT * FROM tasks WHERE id = ?",
+              [id],
+              (_, resultSet) => {
+                  const task = resultSet.rows.item(0);
+                  callback(task); // Chamando o callback com os dados da tarefa
+              },
+              (_, error) => {
+                  console.log("Erro ao buscar tarefa: ", error);
+              }
+          );
+      }
+  );
 };
 
-export const verTarefasPorCategoria = (db, categoria, callback) => {
+export const verTarefasPorCategoria = (db, categoria) => {
   db.transaction(
     (tx) => {
         tx.executeSql("SELECT * FROM tasks WHERE categoria = ?", [categoria], 
         (_, resultSet) => {
-          const tarefas = [];
+          console.log("Todas as tarefas na tabela tasks: ");
           for (let i = 0; i < resultSet.rows.length; i++) {
               const task = resultSet.rows.item(i);
-              tarefas.push(task);
+              console.log(`Tarefa ${i + 1}: `, task);
           }
-          callback(tarefas);
-        },
+      },
         (_, error) => {
           console.log("Erro ao buscar tarefas: ", error)
-          callback([])
         }
       );
     }
   )
 };
 
-export const verTarefasStatus = (db, status, callback) => {
+export const verTarefasStatus = (db, status) => {
   db.transaction(
     (tx) => {
         tx.executeSql("SELECT * FROM tasks WHERE status = ?", [status], 
         (_, resultSet) => {
-          const tarefas = [];
+          console.log("Todas as tarefas na tabela tasks: ");
           for (let i = 0; i < resultSet.rows.length; i++) {
               const task = resultSet.rows.item(i);
-              tarefas.push(task);
+              console.log(`Tarefa ${i + 1}: `, task);
           }
-          callback(tarefas);
-        },
+      },
         (_, error) => {
           console.log("Erro ao buscar tarefas: ", error)
-          callback([])
         }
       );
     }
   )
-}
+};
 
 export const atualizarStatus = (db, id, status) => {
   db.transaction(
@@ -195,21 +193,6 @@ export const tarefasPorPrioridade = (db, callback) => {
   )
 };
 
-export const excluirTarefa = (db, id) => {
-  db.transaction(
-    (tx) => {
-        tx.executeSql("DELETE FROM tasks WHERE id = ?", [id], 
-        (_, resultSet) => {
-          console.log("Tarefa excluída com sucesso!")
-        },
-        (_, error) => {
-          console.log("Erro ao buscar tarefas: ", error)
-        }
-      );
-    }
-  )
-};
-
 export const editarTarefa = (db, nome, descricao, categoria, prioridade, date, id) => {
   const data_entrega = dayjs(date).local().format().slice(0, 10);
   db.transaction(
@@ -227,3 +210,62 @@ export const editarTarefa = (db, nome, descricao, categoria, prioridade, date, i
     }
   )
 };
+
+export const excluirTarefa = (db, id) => {
+  db.transaction(
+    (tx) => {
+        tx.executeSql("DELETE FROM tasks WHERE id = ?", [id], 
+        (_, resultSet) => {
+          console.log("Tarefa excluída com sucesso!")
+        },
+        (_, error) => {
+          console.log("Erro ao buscar tarefas: ", error)
+        }
+      );
+    }
+  )
+};
+
+export const pesquisarTarefas = (db, pesquisa, callback) => {
+  db.transaction(
+    (tx) => {
+      tx.executeSql("SELECT * FROM tasks WHERE nome GLOB '?*'",
+        [pesquisa],
+        (_, resultSet) => {
+          const tarefas = [];
+          for (let i = 0; i < resultSet.rows.length; i++) {
+              const task = resultSet.rows.item(i);
+              tarefas.push(task);
+          }
+          callback(tarefas)
+        },
+        (_, error) => {
+          console.log("Erro ao buscar tarefas: ", error)
+          callback([]) 
+        }
+      );
+    }
+  )
+}
+
+export const estatistica = (db, pesquisa, callback) => {
+  db.transaction(
+    (tx) => {
+      tx.executeSql("SELECT status, COUNT(status) as quantidade FROM tasks GROUP BY status",
+        [pesquisa],
+        (_, resultSet) => {
+          const tarefas = [];
+          for (let i = 0; i < resultSet.rows.length; i++) {
+              const task = resultSet.rows.item(i);
+              tarefas.push(task);
+          }
+          callback(tarefas) 
+        },
+        (_, error) => {
+          console.log("Erro ao buscar tarefas: ", error)
+          callback([]) 
+        }
+      );
+    }
+  )
+}

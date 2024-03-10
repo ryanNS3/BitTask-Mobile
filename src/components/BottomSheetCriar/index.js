@@ -21,8 +21,8 @@ export function BottomSheetCriar() {
     const [show, setShow] = useState(false);
     const [nome, setNome] = useState('');
     const [descricao, setDescricao] = useState('');
-    const [categoria, setCategoria] = useState('');
-    const [prioridade, setPrioridade] = useState(0);
+    const [categoria, setCategoria] = useState(null);
+    const [prioridade, setPrioridade] = useState(null);
 
     const db = openDatabase();
 
@@ -48,7 +48,7 @@ export function BottomSheetCriar() {
             setNome('');
             setDescricao('');
             setCategoria('');
-            setPrioridade(0);
+            setPrioridade(null);
             setDate(new Date());
         } else {
             alert('Por favor, preencha todos os campos obrigatórios para criar uma tarefa.');
@@ -76,14 +76,13 @@ export function BottomSheetCriar() {
                     handleStyle={{backgroundColor: '#d1dffe'}}
                     handleIndicatorStyle={{backgroundColor: '#000c36'}}
                 >
-                    <BottomSheetScrollView>
-                        <ImageBackground
-                            source={require('../../../assets/fundo/header.png')}
-                            style={styles.image}
-                        >
-                            <Text style={styles.headerText}>Criar Tarefa</Text>
-                        </ImageBackground>
+                    <ImageBackground
+                        source={require('../../../assets/fundo/header.png')}
+                    >
+                        <Text style={styles.headerText}>Criar Tarefa</Text>
+                    </ImageBackground>
 
+                    <BottomSheetScrollView>
                         <View style={styles.mainContainer}>
                             <View style={styles.form}>
                                 <Text style={styles.label}>NOME:</Text>

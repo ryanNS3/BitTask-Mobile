@@ -1,11 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { TextInput, View, TouchableOpacity, Text, FlatList } from 'react-native';
+import dayjs from "dayjs";
+
 import { Header } from '../../components/Header';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { TextInput, View, TouchableOpacity, Text, FlatList } from 'react-native';
 import { openDatabase, verTodasTarefas } from '../../database';
 import { styles } from './styles';
+import { BottomSheetContext } from '../../contexts/bottomSheetContext';
 
 export function Tarefas() {
+    const { setIsBottomSheetVerOpen, setTarefaSelecionadaId } = useContext(BottomSheetContext);
+    const handleOpenSheet = (taskId) => {
+        setIsBottomSheetVerOpen(true);
+        setTarefaSelecionadaId(taskId);
+    };
+    
     const [tarefas, setTarefas] = useState([]);
 
     useEffect(() => {
@@ -20,18 +29,24 @@ export function Tarefas() {
         });
     };
 
-    const renderizarItem = ({ item }) => (
-        <TouchableOpacity style={styles.tarefa}>
-            <Text>{item.nome}</Text>
-			<Text>{item.data_entrega}</Text>
-        </TouchableOpacity>
-    );
+    const renderizarItem = ({ item }) => {
+        const dataEntrega = dayjs(item.data_entrega).format('DD/MM/YYYY')
+    
+        return (
+            <TouchableOpacity
+                style={styles.tarefa}
+                onPress={() => handleOpenSheet(item.id)}
+            >
+                <Text>{item.nome}</Text>
+                <Text>{dataEntrega}</Text>
+            </TouchableOpacity>
+        );
+    };    
 
     return (
         <SafeAreaView style={styles.container}>
             <Header headerText={'Tarefas'} />
 
-			
             <View
 				style={styles.containerTarefas}
 			>

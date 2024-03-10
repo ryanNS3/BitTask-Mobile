@@ -11,6 +11,7 @@ import { Categorias } from './src/screens/Categorias';
 import { Tarefas } from './src/screens/Tarefas';
 import { DetalhesCategorias } from './src/components/DetalhesCategorias';
 import { BottomSheetCriar } from './src/components/BottomSheetCriar';
+import { BottomSheetVer } from './src/components/BottomSheetVer';
 
 // Importando cada ícone da Navigation bar
 import { NavHome, NavHomeActive, NavCategoria, NavCategoriaActive, NavTarefa, NavTarefaActive } from './assets/icones/navIcons';
@@ -107,6 +108,8 @@ export default function App() {
         </NavigationContainer>
 
         <BottomSheetCriar />
+
+        <BottomSheetVer />
       </BottomSheetProvider>
     </GestureHandlerRootView>
   );
