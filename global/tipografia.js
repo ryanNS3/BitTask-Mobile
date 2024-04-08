@@ -22,7 +22,7 @@ export const Titulos = StyleSheet.create({
         fontSize: 20,
         letterSpacing: 0.2,
         lineHeight: 28,
-        fontWeight: "500",
+        fontWeight: "600",
     },
 })
 

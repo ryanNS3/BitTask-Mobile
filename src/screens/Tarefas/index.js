@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { TextInput, View, TouchableOpacity, Text, FlatList } from 'react-native';
-import dayjs from "dayjs";
 
 import { Header } from '../../components/Header';
+import { CardTarefa } from '../../components/cardTarefa';
 import { SafeAreaView } from 'react-native-safe-area-context';
+
 import { openDatabase, verTodasTarefas } from '../../database';
 import { styles } from './styles';
 import { BottomSheetContext } from '../../contexts/bottomSheetContext';
+
 
 export function Tarefas() {
     const { setIsBottomSheetVerOpen, setTarefaSelecionadaId } = useContext(BottomSheetContext);
@@ -30,16 +32,17 @@ export function Tarefas() {
     };
 
     const renderizarItem = ({ item }) => {
-        const dataEntrega = dayjs(item.data_entrega).format('DD/MM/YYYY')
-    
         return (
-            <TouchableOpacity
-                style={styles.tarefa}
-                onPress={() => handleOpenSheet(item.id)}
-            >
-                <Text>{item.nome}</Text>
-                <Text>{dataEntrega}</Text>
-            </TouchableOpacity>
+            <CardTarefa
+            nome={item.nome}
+            onPress={()=> handleOpenSheet(item.id)}
+            tarefas={tarefas}
+            setTarefas={setTarefas}
+            prioridade={item.prioridade}
+            id={item.id}
+            status={item.status}
+            data={item.data_entrega}
+        />
         );
     };    
 

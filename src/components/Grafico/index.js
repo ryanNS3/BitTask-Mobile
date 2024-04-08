@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { View,Text } from 'react-native'
-// imporantando grafico
-import { PieChart } from 'react-native-svg-charts';
 
 import { styles } from './styles'
 import { Colors } from '../../../global/colors'
@@ -37,11 +35,6 @@ export const Grafico = ({porcentagem, tamanho}) => {
     
   return (
     <View style={styles.container}>
-      <PieChart
-        padAngle={94}
-        innerRadius={"75%"} 
-        style={{height:55, width:85}} 
-        data={pieData}/>
     </View>
   )
 }

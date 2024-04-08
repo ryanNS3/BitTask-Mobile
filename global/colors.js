@@ -1,3 +1,5 @@
+
+
 // cor para texto 
 export const Colors = {
 
@@ -33,6 +35,9 @@ export const Colors = {
     az9:{
         cor: "#01061A"
     },
+    azGradienteEnfase:{
+        cor: "linear-gradient(90deg, rgba(25,94,252,1) 29%, rgba(13,35,237,1) 100%)"
+    },
 
     //cinza
     ci1:{
@@ -64,6 +69,7 @@ export const Colors = {
     },
 
     // vermelho
+
 
     ve1:{
        cor: "#FFCFCF"
@@ -120,6 +126,7 @@ export const Colors = {
     am8:{
         cor: "#3A2E01"
     },
+
     prioridadeAlta:{
         cor: "#F27070"
     },

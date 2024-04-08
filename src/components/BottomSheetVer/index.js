@@ -1,7 +1,6 @@
 import { useContext, useMemo, useRef, useState, useEffect } from "react";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { Text, View, ImageBackground, ScrollView, Modal, Pressable, Image } from 'react-native';
-import dayjs from 'dayjs';
 
 import { corpoTexto } from '../../../global/tipografia';
 import { BottomSheetContext } from "../../contexts/bottomSheetContext";
@@ -21,7 +20,7 @@ export function BottomSheetVer() {
 
     useEffect(() => {
         if (isBottomSheetVerOpen && tarefaSelecionadaId) {
-            verTarefa(db, tarefaSelecionadaId, (task) => {
+            verTarefa(db, tarefaSelecionadaId, (task) => { 
                 setTarefa(task);
             });
         }
@@ -43,7 +42,7 @@ export function BottomSheetVer() {
 
       const getDataEntregaFormatada = (tarefa) => {
         if (tarefa && tarefa.data_entrega) {
-            return dayjs(tarefa.data_entrega).format('DD/MM/YYYY')
+            return new Date(tarefa.data_entrega).toLocaleDateString();
         }
     };
     
@@ -52,11 +51,11 @@ export function BottomSheetVer() {
     function getPrioridadeString(prioridade) {
         switch (prioridade) {
             case 1:
-                return "Baixa";
+                return "baixa";
             case 2:
-                return "Média";
+                return "média";
             case 3:
-                return "Alta";
+                return "alta";
         }
     }
     

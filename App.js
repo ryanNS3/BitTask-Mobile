@@ -27,6 +27,8 @@ function HomeStack() {
         }}
     >
       <Stack.Screen name="HomeStack" component={Home} />
+      <Stack.Screen name="TarefasStack" component={Tarefas} />
+      <Stack.Screen name="CategoriaStack" component={Categorias} />
     </Stack.Navigator>
   );
 }

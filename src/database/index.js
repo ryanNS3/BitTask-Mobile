@@ -36,6 +36,7 @@ export const criarTabela = (db) => {
     )
 };
 
+
 export const criarTarefa = (db, nome, descricao, categoria, prioridade, date) => {
   const data_entrega = dayjs(date).local().format().slice(0, 10);
 
@@ -62,11 +63,11 @@ export const verTodasTarefas = (db, callback) => {
         (_, resultSet) => {
           const tarefas = [];
           for (let i = 0; i < resultSet.rows.length; i++) {
-              const task = resultSet.rows.item(i);
-              tarefas.push(task);
+            const task = resultSet.rows.item(i);
+            tarefas.push(task);
           }
           callback(tarefas);
-      },
+        },
         (_, error) => {
           console.log("Erro ao buscar tarefas: ", error)
           callback([]);
@@ -78,51 +79,54 @@ export const verTodasTarefas = (db, callback) => {
 
 export const verTarefa = (db, id, callback) => {
   db.transaction(
-      (tx) => {
+    (tx) => {
           tx.executeSql(
               "SELECT * FROM tasks WHERE id = ?",
               [id],
               (_, resultSet) => {
                   const task = resultSet.rows.item(0);
                   callback(task); // Chamando o callback com os dados da tarefa
-              },
-              (_, error) => {
+                },
+                (_, error) => {
                   console.log("Erro ao buscar tarefa: ", error);
-              }
+                }
           );
-      }
-  );
-};
-
-export const verTarefasPorCategoria = (db, categoria) => {
-  db.transaction(
-    (tx) => {
-        tx.executeSql("SELECT * FROM tasks WHERE categoria = ?", [categoria], 
-        (_, resultSet) => {
-          console.log("Todas as tarefas na tabela tasks: ");
-          for (let i = 0; i < resultSet.rows.length; i++) {
-              const task = resultSet.rows.item(i);
-              console.log(`Tarefa ${i + 1}: `, task);
-          }
-      },
-        (_, error) => {
-          console.log("Erro ao buscar tarefas: ", error)
         }
+        );
+      };
+      
+      export const verTarefasPorCategoria = (db, categoria) => {
+        db.transaction(
+          (tx) => {
+            tx.executeSql("SELECT * FROM tasks WHERE categoria = ?", [categoria], 
+            (_, resultSet) => {
+              console.log("Todas as tarefas na tabela tasks: ");
+              for (let i = 0; i < resultSet.rows.length; i++) {
+                const task = resultSet.rows.item(i);
+                console.log(`Tarefa ${i + 1}: `, task);
+        }
+      },
+      (_, error) => {
+        console.log("Erro ao buscar tarefas: ", error)
+      }
       );
     }
-  )
-};
-
-export const verTarefasStatus = (db, status) => {
-  db.transaction(
-    (tx) => {
+    )
+  };
+  
+  export const verTarefasStatus = (db, status, callback) => {
+    db.transaction(
+      (tx) => {
         tx.executeSql("SELECT * FROM tasks WHERE status = ?", [status], 
         (_, resultSet) => {
+          const tarefas = [];
           console.log("Todas as tarefas na tabela tasks: ");
           for (let i = 0; i < resultSet.rows.length; i++) {
-              const task = resultSet.rows.item(i);
-              console.log(`Tarefa ${i + 1}: `, task);
+            const task = resultSet.rows.item(i);
+            console.log(`Tarefa ${i + 1}: `, task);
+            tarefas.push(task);
           }
+          callback(tarefas); // Chamando o callback com os dados da tarefa
       },
         (_, error) => {
           console.log("Erro ao buscar tarefas: ", error)
